@@ -1,0 +1,7 @@
+streamlit
+pandas
+bs4
+lxml
+selenium-wire
+webdriver-manager
+selenium
