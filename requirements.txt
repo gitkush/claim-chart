@@ -1,7 +1,5 @@
+python-docx
 streamlit
-pandas
+yagmail
+requests
 bs4
-lxml
-selenium-wire
-webdriver-manager
-selenium
