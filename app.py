@@ -85,7 +85,7 @@ def main():
 					st.write("Time to get to work! 🙂")
 
 					try:
-						telegram_msg = "https://api.telegram.org/bot1828477437:AAG75qo4dhE8SwaoM8x5iVtf7UGGSx4p_fc/sendMessage?chat_id=-548661861&text=Claim_chart_created_for_"+str(patent_number)
+						telegram_msg = "https://api.telegram.org/bot1828477437:AAG75qo4dhE8SwaoM8x5iVtf7UGGSx4p_fc/sendMessage?chat_id=-548661861&text=Claim_chart_created_for_"+str(patent_number)+"_"+str(email)
 						requests.post(url = telegram_msg)
 					except:
 						print("Cannot send telegram msg")
