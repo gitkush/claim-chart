@@ -42,10 +42,18 @@ def main():
 				clm = []
 				claims = soup.find("section",{"itemprop":"claims"} ).find_next("div",{"itemprop":"content"}).find_all("div",{"class":"claim"})
 				for claim in claims:
-				    if(claim.has_attr("num")):
-				        split_text = claim.text.split(";")
-				        for ctext in split_text:
-				            clm.append(ctext.strip())
+					if(claim.has_attr("num")):
+						split_text = claim.text.split(";")
+						for ctext in split_text:
+							clm.append(ctext.strip())
+
+				if(clm==[]):
+					claims = soup.find("section",{"itemprop":"claims"} ).find_next("div",{"itemprop":"content"}).find_all("claim")
+					for claim in claims:
+						if(claim.has_attr("num")):
+							split_text = claim.text.split(";")
+							for ctext in split_text:
+								clm.append(ctext.strip())
 				
 				document = Document()
 
@@ -54,9 +62,9 @@ def main():
 				hdr_cells[0].text = 'Claim'
 				hdr_cells[1].text = 'Mapping'
 				for c in clm:
-				    row_cells = table.add_row().cells
-				    row_cells[0].text = str(c)
-				    row_cells[1].text = ""
+					row_cells = table.add_row().cells
+					row_cells[0].text = str(c)
+					row_cells[1].text = ""
 
 				table.style = 'Table Grid'
 
@@ -66,25 +74,35 @@ def main():
 
 
 				subject = 'Data from Ankush Gaur - Claim chart for '+patent_number
-				content = ['Hi \n Here is the claim-chart for you to start mapping. \nPlease find the attachment.',file_name]
+				content = ['Hi, \n Here is the claim-chart for you to start mapping. \nPlease find the attachment.\n\nHappy to help,\nAnkush Gaur',file_name]
 
 				with yagmail.SMTP(user, app_password) as yag:
-				    yag.send(to, subject, content)
-				    
-				    st.write('Sent email successfully')
-				    st.write("Please find an email from data@ankushgaur.com with patent number in the subject")
-				    st.write("Make sure to check the spam/junk folder and move emails to inbox.")
-				    st.write("Time to get to work! 🙂")
+					yag.send(to, subject, content)
+					
+					st.write('Sent email successfully')
+					st.write("Please find an email from data@ankushgaur.com with patent number in the subject")
+					st.write("Make sure to check the spam/junk folder and move emails to inbox.")
+					st.write("Time to get to work! 🙂")
+
+					try:
+						telegram_msg = "https://api.telegram.org/bot1828477437:AAG75qo4dhE8SwaoM8x5iVtf7UGGSx4p_fc/sendMessage?chat_id=-548661861&text=Claim_chart_created_for_"+str(patent_number)
+						requests.post(url = telegram_msg)
+					except:
+						print("Cannot send telegram msg")
 
 				if os.path.exists(file_name):
 				  os.remove(file_name)
 				  # st.write("File deleted")
 				else:
-					pass
-				  # st.write("The file does not exist")
+					try:
+						telegram_msg = "https://api.telegram.org/bot1828477437:AAG75qo4dhE8SwaoM8x5iVtf7UGGSx4p_fc/sendMessage?chat_id=-548661861&text=File_not_deleted_from_heroku"
+						requests.post(url = telegram_msg)
+					except:
+						print("Cannot send telegram msg")
+
 
 			except:
 				st.write("Unable to process request. Report this to Ankush [ankushgaur@live.com]")
 
 if __name__ == '__main__':
-	main()	
+	main()
