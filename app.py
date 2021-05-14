@@ -30,7 +30,7 @@ def main():
 			try:
 
 				user = 'data@ankushgaur.com'
-				app_password = st.secrets["db_username"]# a token for gmail
+				app_password = st.secrets["app_password"]# a token for gmail
 				to = email
 
 				url = "https://patents.google.com/patent/"+str(patent_number)+"/en"
